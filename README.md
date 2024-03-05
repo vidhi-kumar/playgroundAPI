@@ -4,7 +4,8 @@
 ![pexels-pixabay-248547](https://github.com/vidhi-kumar/playgroundAPI/assets/55309127/b9359bbd-cf88-4e52-bf25-eef6e5e12526)
 
 
-Welcome to the Playground APIs repository! This project provides a set of authenticated APIs for testing and experimenting with various features.<br> 
+Welcome to the Playground APIs repository!<br>
+This project provides a set of authenticated APIs for testing and experimenting with various features.<br> 
 Each registered user receives an isolated dashboard to manage their inventory.
 The APIs are connected to relational database and containerized, allowing easy deployment and testing locally.<br>
 The project is designed to be flexible, with mounted volumes for making changes and a convenient script for interacting with the APIs.
