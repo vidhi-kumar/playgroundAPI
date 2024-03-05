@@ -47,7 +47,7 @@ Follow these steps to set up and run the Playground APIs on your local machine:
    $ python playground-api-playground.py
    ```
 
-Due to mounted volume, feel free to test changes while the container is running the APIs.
+With the mounted volumes, feel free to test changes while the container is hosting the APIs.
 
 ## Under the hood
 **Programming Language used:**
