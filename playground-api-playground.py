@@ -229,7 +229,7 @@ def save_items_with_no_quantity():
         except json.JSONDecodeError:
             print("\nError decoding JSON response.")
 
-        time.sleep(10)
+        time.sleep(60)
  
 
 
