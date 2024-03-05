@@ -51,14 +51,14 @@ Due to mounted volume, feel free to test changes while the container is running 
 
 ## Under the hood
 **Programming Language used:**
-Python
+Python<br>
 **Database used:**
-Sqlalchemy ORM on top of in-memory sqlite3 relational database
+Sqlalchemy ORM on top of in-memory sqlite3 relational database<br>
 **APIs used:**
-FastAPI
+FastAPI<br>
 **Documentation using:**
-Swagger.io
+Swagger.io<br>
 **Containerized by:**
-Dockers
-**Tested using(under progress):**
-Pytest, HTTPX
+Dockers<br>
+**Authentication using:**
+JWT Tokens<br>
