@@ -37,7 +37,7 @@ Follow these steps to set up and run the Playground APIs on your local machine:
 6. **Visit Swagger Documentation for APIs:**
    Explore and test APIs at http://localhost:8000/docs
 
-7. **Open container's interactive shell from another terminal while container is running in another:**
+7. **Open docker interactive shell while container is running in another:**
    ```bash
    $ docker exec -it playground-container bash
    ```
