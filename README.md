@@ -54,7 +54,7 @@ With the mounted volumes, feel free to test changes while the container is hosti
 Python<br>
 **Database used:**
 Sqlalchemy ORM on top of in-memory sqlite3 relational database<br>
-**APIs used:**
+**API Development:**
 FastAPI<br>
 **Documentation using:**
 Swagger.io<br>
