@@ -1,4 +1,4 @@
-## playgroundAPI - One stop solution for your sports inventory
+## playgroundAPI - One stop solution for managing your sports inventory
 
 
 ![pexels-pixabay-248547](https://github.com/vidhi-kumar/playgroundAPI/assets/55309127/b9359bbd-cf88-4e52-bf25-eef6e5e12526)
