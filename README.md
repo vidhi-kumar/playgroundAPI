@@ -16,35 +16,23 @@ Follow these steps to set up and run the Playground APIs on your local machine:
 
 1. **Clone the Repository**
 
-2. **Generate secret hex key:**
-    ```python
-      import secrets
-      # taking 10 bytes
-      secrets.token_hex(10)
-    ```
-
-3.  **Add secret key in .env file:**
-     ```env
-     secret=XXXXXXXXXXXX
-     ```
-
-4. **Build and Run the Container:**
+2. **Build and Run the Container:**
     ```bash
      $ docker compose up --build
     ```
 
-5. **Explore the APIs:**
+3. **Explore the APIs:**
   The APIs will now be available locally at http://localhost:8000
 
-6. **Visit Swagger Documentation for APIs:**
+4. **Visit Swagger Documentation for APIs:**
    Explore and test APIs at http://localhost:8000/docs
 
-7. **Open docker interactive shell while container is running in another:**
+5. **Open docker interactive shell while container is running in another:**
    ```bash
    $ docker exec -it playground-container bash
    ```
    
-8. **Start using the APIs once inside interactive shell:**
+6. **Start using the APIs once inside interactive shell:**
    ```bash
    $ python playground-api-playground.py
    ```
