@@ -13,4 +13,4 @@ COPY . /app
 
 EXPOSE 8000
 
-CMD ["python", "secret_manager.py", "&&", "uvicorn", "main:app", "--reload", "--host=0.0.0.0"]
+CMD ["sh", "-c", "python secret_manager.py && uvicorn main:app --reload --host=0.0.0.0"]
