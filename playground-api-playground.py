@@ -23,57 +23,63 @@ access_token = None
 
 # creating new equipment in database using playground api
 def create_item():
-    item = input("\nEnter the item name: ")
-    quantity = input("Enter the item quantity: ")
-    
-    command_create_item = f"""
-    curl -X 'POST' \
-    'http://localhost:8000/equipments' \
-    -H 'accept: application/json' \
-    -H 'Authorization: Bearer {{   "access_token": "{access_token}" }}' \
-    -H 'Content-Type: application/json' \
-    -d '{{
-    "item": "{item}",
-    "quantity": {quantity}
-    }}'
-    """
     try:
-        result = subprocess.run(command_create_item, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        response_json = json.loads(result.stdout)
-        if 'message' in response_json and response_json['message'] == 'Equipment has been added':
-            print("\nEquipment has been added")
-        else:
-            print("\nSomething went wrong")
-    except Exception as e:
-        print(e)
+        item = input("\nEnter the item name: ")
+        quantity = int(input("Enter the item quantity: "))
+        
+        command_create_item = f"""
+        curl -X 'POST' \
+        'http://localhost:8000/equipments' \
+        -H 'accept: application/json' \
+        -H 'Authorization: Bearer {{   "access_token": "{access_token}" }}' \
+        -H 'Content-Type: application/json' \
+        -d '{{
+        "item": "{item}",
+        "quantity": {quantity}
+        }}'
+        """
+        try:
+            result = subprocess.run(command_create_item, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            response_json = json.loads(result.stdout)
+            if 'message' in response_json and response_json['message'] == 'Equipment has been added':
+                print("\nEquipment has been added")
+            else:
+                print("\nSomething went wrong")
+        except Exception as e:
+            print(e)
+    except ValueError as e:
+        print("\nInvalid input. Please enter a valid integer.")
         
     
 # updating quantity of equipment in database using playground api 
 def update_quantity():
-    item = input("Enter the item name: ")
-    quantity = input("Enter the new quantity: ")
-    
-    command_update = f"""
-    curl -X 'PUT' \
-    'http://localhost:8000/equipments' \
-    -H 'accept: application/json' \
-    -H 'Authorization: Bearer {{   "access_token": "{access_token}" }}' \
-    -H 'Content-Type: application/json' \
-    -d '{{
-    "item": "{item}",
-    "quantity": {quantity}
-    }}'
-    """
-
     try:
-        result = subprocess.run(command_update, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        response_json = json.loads(result.stdout)
-        if 'message' in response_json and response_json['message'] == 'Quantity of equipment has been updated':
-            print("\nQuantity of equipment has been updated")
-        else:
-            print("\nSomething went wrong")
-    except Exception as e:
-        print(e)
+        item = input("Enter the item name: ")
+        quantity = int(input("Enter the new quantity: "))
+        
+        command_update = f"""
+        curl -X 'PUT' \
+        'http://localhost:8000/equipments' \
+        -H 'accept: application/json' \
+        -H 'Authorization: Bearer {{   "access_token": "{access_token}" }}' \
+        -H 'Content-Type: application/json' \
+        -d '{{
+        "item": "{item}",
+        "quantity": {quantity}
+        }}'
+        """
+
+        try:
+            result = subprocess.run(command_update, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            response_json = json.loads(result.stdout)
+            if 'message' in response_json and response_json['message'] == 'Quantity of equipment has been updated':
+                print("\nQuantity of equipment has been updated")
+            else:
+                print("\nEquipement does not exist.")
+        except Exception as e:
+            print(e)
+    except ValueError as e:
+        print("\nInvalid input. Please enter a valid integer.")
     
 
 # displaying inventory items using playgroud api
@@ -190,46 +196,50 @@ def login():
 '''periodic saving of information on sports equipment with zero quantities in JSON format, providing a record of such equipment over a set duration.
 '''
 def save_items_with_no_quantity():
-    num_minutes = input("\nEnter number of minutes you want to save zero quantity items for: ")
+    try:
+        num_minutes = int(input("\nEnter number of minutes you want to save zero quantity items for: "))
 
-    log_directory = "/app/ZeroQuantityLogs"
-    os.makedirs(log_directory, exist_ok=True)
+        log_directory = "/app/ZeroQuantityLogs"
+        os.makedirs(log_directory, exist_ok=True)
 
-    for _ in range(int(num_minutes)):
-        command_out_of_stock = f"""
-        curl -X 'GET' \
-        'http://localhost:8000/equipments/outofstock/' \
-        -H 'accept: application/json' \
-        -H 'Authorization: Bearer {{   "access_token": "{access_token}" }}'
-        """
+        for _ in range(int(num_minutes)):
+            command_out_of_stock = f"""
+            curl -X 'GET' \
+            'http://localhost:8000/equipments/outofstock/' \
+            -H 'accept: application/json' \
+            -H 'Authorization: Bearer {{   "access_token": "{access_token}" }}'
+            """
 
-        result = subprocess.run(command_out_of_stock, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            result = subprocess.run(command_out_of_stock, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
-        try:
-            response_json = json.loads(result.stdout)
-            timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-            file_name = f"{log_directory}/empty_equipments_{timestamp}.json"
+            try:
+                response_json = json.loads(result.stdout)
+                timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+                file_name = f"{log_directory}/empty_equipments_{timestamp}.json"
 
-            with open(file_name, 'w') as json_file:
-                log_data = {
-                    "timestamp": datetime.now().strftime("%Y/%m/%d %H:%M:%S"),
-                    "data": {}
-                }
-                if 'message' in response_json and response_json['message'] == 'No equipments found':
-                    log_data["data"]["message"] = "No equipments found with zero quantity"
-                    json.dump(log_data, json_file, indent=2)
-                    print("\nNo equipments found with zero quantity")
-                else:
-                    equipment_list = [{"item": equipment['item']} for equipment in response_json['equipments']]
-                    log_data["data"]["equipments"] = equipment_list
-                    json.dump(log_data, json_file, indent=2)
-                    print("\nFollowing sports equipments have 0 quantity:")
-                    for equipment in response_json['equipments']:
-                        print(f"{equipment['item']}")
-        except json.JSONDecodeError:
-            print("\nError decoding JSON response.")
+                with open(file_name, 'w') as json_file:
+                    log_data = {
+                        "timestamp": datetime.now().strftime("%Y/%m/%d %H:%M:%S"),
+                        "data": {}
+                    }
+                    if 'message' in response_json and response_json['message'] == 'No equipments found':
+                        log_data["data"]["message"] = "No equipments found with zero quantity"
+                        json.dump(log_data, json_file, indent=2)
+                        print("\nNo equipments found with zero quantity")
+                    else:
+                        equipment_list = [{"item": equipment['item']} for equipment in response_json['equipments']]
+                        log_data["data"]["equipments"] = equipment_list
+                        json.dump(log_data, json_file, indent=2)
+                        print("\nFollowing sports equipments have 0 quantity:")
+                        for equipment in response_json['equipments']:
+                            print(f"{equipment['item']}")
+            except json.JSONDecodeError:
+                print("\nError decoding JSON response.")
 
-        time.sleep(60)
+            time.sleep(60)
+    except ValueError:
+        print("\nInvalid input. Please enter a valid number.")
+
  
 
 
