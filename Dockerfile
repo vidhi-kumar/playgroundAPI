@@ -7,7 +7,8 @@ COPY requirements.txt .
 RUN pip install -r ./requirements.txt
 
 RUN apt-get update && \
-    apt-get install -y curl
+    apt-get install -y curl sqlite3 && \
+    pip install -r ./requirements.txt
 
 COPY . /app
 
