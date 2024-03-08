@@ -9,6 +9,7 @@ The application also allows periodic saving of information on sports equipment w
 """
 
 import subprocess
+import getpass
 import sys
 import os
 import requests
@@ -133,7 +134,7 @@ def signup():
     global access_token
     name = input("\nEnter your name: ")
     email = input("Enter your email: ")
-    password = input("Enter your password: ")
+    password = getpass.getpass("Enter your password: ")
     
     command_signup = f"""
     curl -X 'POST' \
@@ -165,7 +166,7 @@ def signup():
 def login():
     global access_token  
     email = input("\nEnter your email: ")
-    password = input("Enter your password: ")
+    password = getpass.getpass("Enter your password: ")
 
     command_login = f"""
     curl -X 'POST' \
