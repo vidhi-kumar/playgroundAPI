@@ -20,10 +20,14 @@ import json
 from sqlalchemy import inspect
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.exc import IntegrityError
+from passlib.context import CryptContext
 
 
 
 app = FastAPI()
+
+
+password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 # landing zone
@@ -236,7 +240,7 @@ async def check_user(db: Session, data: UserLoginSchema):
     try:
         result = await db.execute(select(UserSchemaDB).where(UserSchemaDB.email == data.email))
         db_user = result.scalar()
-        if db_user.email == data.email and db_user.password == data.password:
+        if db_user and password_context.verify(data.password, db_user.password):
             return True
         return False
     except:
@@ -261,7 +265,8 @@ async def user_signup(user: UserSchema = Body(default=None), db: Session = Depen
       If the email is already registered, an error indicating email duplication is returned.
     """
     try:
-        db_user = UserSchemaDB(name=user.name, email=user.email, password=user.password)
+        hashed_password = password_context.hash(user.password)
+        db_user = UserSchemaDB(name=user.name, email=user.email, password=hashed_password)
         db.add(db_user)
         await db.commit()
         await db.refresh(db_user)
