@@ -2,9 +2,6 @@ from fastapi.testclient import TestClient
 from main import app
 from fastapi import status
 
-# # This token has validity for 30 days from 4th April onwards
-# test_token = {"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJ0ZXN0QHRlc3QuY29tIiwiZXhwaXJ5IjoxNzEwMTYwMDM1LjE3Njk3N30.JMpyNoKEuPK-VdfTA4CgmXuwwDRsn3Hdow-15iOChY0"}
-
 
 client = TestClient(app)
 
