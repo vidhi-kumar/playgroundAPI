@@ -17,6 +17,7 @@ from sqlalchemy.orm import Session
 from app.database import Base
 from sqlalchemy.future import select
 import json
+import warnings
 from sqlalchemy import inspect
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.exc import IntegrityError
@@ -29,6 +30,8 @@ app = FastAPI()
 
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+
+warnings.filterwarnings("ignore", category=DeprecationWarning, module="httpx._client")
 
 # landing zone
 @app.get("/")

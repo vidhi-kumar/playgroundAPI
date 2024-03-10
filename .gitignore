@@ -21,6 +21,7 @@ venv
 docs.zip
 archive.zip
 .env
+ZeroQuantityLogs
 
 # vim temporary files
 *~
